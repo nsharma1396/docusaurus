@@ -41,6 +41,8 @@ function idx(target, keyPaths) {
 function getGitLastUpdated(filepath) {
   const timestampAndAuthorRegex = /^(\d+), (.+)$/;
 
+  console.log("File Path: ", filePath);
+
   function isTimestampAndAuthor(str) {
     return timestampAndAuthorRegex.test(str);
   }
@@ -76,6 +78,9 @@ function getGitLastUpdated(filepath) {
       .replace(/\n\s*\n/g, '\n')
       .split('\n')
       .filter(String);
+
+    console.log(records);
+      
     const lastContentModifierCommit = records.find((item, index, arr) => {
       const currentItemIsTimestampAndAuthor = isTimestampAndAuthor(item);
       const isLastTwoItem = index + 2 >= arr.length;
@@ -85,6 +90,8 @@ function getGitLastUpdated(filepath) {
         (isLastTwoItem || nextItemIsTimestampAndAuthor)
       );
     });
+
+    console.log(lastContentModifierCommit);
 
     return lastContentModifierCommit
       ? getTimestampAndAuthor(lastContentModifierCommit)
